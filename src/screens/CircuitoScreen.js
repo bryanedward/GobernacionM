@@ -1,10 +1,21 @@
 import React from 'react'
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
 
 export const CircuitoScreen = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const { control, register, handleSubmit, formState: { errors } } = useForm();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'circuito'
+    })
+    const onSubmit = (data) => { console.log(data) };
+
+    const agregarCamposForm = () => append({
+        departamento: '', descripcion: '', marca: '', modelo: '', macAddress: '', ipAddress: '',
+        numSerie: ''
+    })
+
+    const eliminarCampForm = () => remove(fields.length - 1)
 
     return (
         <div>
@@ -25,18 +36,24 @@ export const CircuitoScreen = () => {
                             <h4>Num.Serie</h4>
                         </div>
                         <div>
-                            <div className="connectividad__table_row">
-                                <input id="departamento" type="text" {...register("departamento", { required: true })} />
-                                <input id="descripcion" type="text" {...register("descripcion", { required: true })} />
-                                <input id="marca" type="text" {...register("marca", { required: true })} />
-                                <input id="modelo" type="text" {...register("modelo", { required: true })} />
-                                <input id="macAddress" type="text" {...register("macAddress", { required: true })} />
-                                <input id="ipAddress" type="text" {...register("ipAddress", { required: true })} />
-                                <input id="numSerie" type="text" {...register("numSerie", { required: true })} />
-                            </div>
-
+                            {
+                                fields.map((field, index) => (
+                                    //TODO: implementacion de los inputs del form
+                                    <div className="connectividad__table_row" key={field.id}>
+                                        <input id="departamento" type="text" {...register(`circuito.${index}.departamento`, { required: true })} />
+                                        <input id="descripcion" type="text" {...register(`circuito.${index}.descripcion`, { required: true })} />
+                                        <input id="marca" type="text" {...register(`circuito${index}.marca`, { required: true })} />
+                                        <input id="modelo" type="text" {...register(`circuito${index}.modelo`, { required: true })} />
+                                        <input id="macAddress" type="text" {...register(`circuito${index}.macAddress`, { required: true })} />
+                                        <input id="ipAddress" type="text" {...register(`circuito${index}.ipAddress`, { required: true })} />
+                                        <input id="numSerie" type="text" {...register(`circuito${index}.numSerie`, { required: true })} />
+                                    </div>
+                                ))
+                            }
                             <div className="connectividad__table_submit_container">
-                                <input className="primaryBtn" value="+" type="submit" />
+                                {/* TODO: botones para agregar campos y eliminar */}
+                                <input className="primaryBtn" value="+" type="submit" onClick={agregarCamposForm} />
+                                <input className="primaryBtn" value="-" type="submit" onClick={eliminarCampForm} />
                             </div>
                         </div>
                         <div className="connectividad__observaciones_container">

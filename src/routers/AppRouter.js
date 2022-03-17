@@ -43,19 +43,15 @@ export const AppRouter = () => {
                         ) : (
                             <Switch>
                                 <PublicRoute isAuthenticated={isAuthenticated} path='/auth' component={AuthRouter} />
-
                                 <PrivateRoute isAuthenticated={isAuthenticated} exact path='/fichaTecnica' component={FichaTecnicaScreen} />
                                 <PrivateRoute isAuthenticated={isAuthenticated} exact path='/conectividad' component={ConectividadScreen} />
                                 <PrivateRoute isAuthenticated={isAuthenticated} exact path='/circuitoCerrado' component={CircuitoScreen} />
                                 <PrivateRoute isAuthenticated={isAuthenticated} exact path='/usuarios' component={UsuariosScreen} />
-
-
                                 <Route
                                     exact
                                     path="/"
                                     component={HomeScreen}
                                 />
-
                                 <Redirect to="/" />
                             </Switch>
                         )
